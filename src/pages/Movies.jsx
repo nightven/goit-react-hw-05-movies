@@ -13,7 +13,6 @@ const Movies = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  
 
   const search = searchParams.get('query') ?? '';
   console.log();
@@ -46,7 +45,7 @@ const Movies = () => {
     };
 
     getMoviesByQuery();
-  }, [searchParams, page]);
+  }, [searchParams, page, search]);
 
   const loadMore = () => {
     setPage(prevPage => prevPage + 1);
@@ -62,7 +61,12 @@ const Movies = () => {
   return (
     <Container>
       <p>Search Movies</p>
-      <InputSearch placeholder='Search' type="text" value={search} onChange={updateQueryString} />
+      <InputSearch
+        placeholder="Search"
+        type="text"
+        value={search}
+        onChange={updateQueryString}
+      />
       {isLoading && <Load />}
       {isError ? (
         <div>
@@ -71,7 +75,11 @@ const Movies = () => {
       ) : (
         movies.length !== 0 && <CardList movies={movies} />
       )}
-      {isLoadMore && <button onClick={loadMore} type="button">Load more</button>}
+      {isLoadMore && (
+        <button onClick={loadMore} type="button">
+          Load more
+        </button>
+      )}
     </Container>
   );
 };
