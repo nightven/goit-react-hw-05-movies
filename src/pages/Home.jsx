@@ -1,16 +1,29 @@
-import React, { useEffect } from 'react'
+import { getMoviesInTrends } from 'api/api';
+import CardList from 'components/CardList/CardList';
+import React, { useEffect, useState } from 'react';
+import Container from './Home.styled';
 
+const Home = () => {
+  const [movies, setMovies] = useState([]);
 
+  useEffect(() => {
+    const getTrendsMovies = async () => {
+      try {
+        const movies = await getMoviesInTrends();
+        setMovies(movies.data.results);
+      } catch (error) {
+        console.log(error.massage);
+      }
+    };
 
- const Home = () => {
-    useEffect(() => {
-        //http запрос
-    },[])
+    getTrendsMovies();
+  }, []);
+
   return (
-    <div>
-        <h1>Home</h1>
-        
-    </div>
-  )
-}
+    <Container >
+      <h1>Trend of day</h1>
+      <CardList movies={movies} />
+    </Container>
+  );
+};
 export default Home;
